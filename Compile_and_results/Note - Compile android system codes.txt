@@ -1,0 +1,4 @@
+
+$ mmm frameworks/base/services
+$ make snod
+$ ./gen-img.sh

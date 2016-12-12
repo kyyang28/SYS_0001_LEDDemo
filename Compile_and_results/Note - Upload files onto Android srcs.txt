@@ -1,0 +1,25 @@
+
+Server : 	LedService.java
+			SystemServer.java
+
+	frameworks/base/services/java/com/android/server/SystemServer.java
+	frameworks/base/services/core/java/com/android/server/LedService.java
+
+	Do not modify frameworks/base/services/core/Android.mk
+
+	All java files are included in frameworks/base/services/core/Android.mk
+
+	LOCAL_SRC_FILES += \
+	  		$(call all-java-files-under,java) \
+
+JNI :		com_android_server_LedService.cpp
+			onload.cpp
+
+	frameworks/base/services/core/jni/com_android_server_LedService.cpp
+	frameworks/base/services/core/jni/onload.cpp
+
+	Modify frameworks/base/services/core/jni/Android.mk
+
+	Add the following line.
+			$(LOCAL_REL_DIR)/com_android_server_VibratorService.cpp \
+		+ 	$(LOCAL_REL_DIR)/com_android_server_LedService.cpp \ 

@@ -1,0 +1,7 @@
+
+If compilation is correct, the following LedService.class should be appeared in the following three directory.
+
+ls ./out/target/common/obj/JAVA_LIBRARIES/services_intermediates/classes/com/android/server/LedService.class
+ls ./out/target/common/obj/JAVA_LIBRARIES/services.core_intermediates/classes/com/android/server/LedService.class
+ls ./out/target/common/obj/APPS/FrameworksServicesTests_intermediates/classes/com/android/server/LedService.class
+

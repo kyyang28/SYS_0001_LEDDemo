@@ -1,0 +1,4 @@
+
+Modify frameworks/base/Android.mk
+
+add ILedService.aidl similar to IVibrationService
