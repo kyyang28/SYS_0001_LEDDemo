@@ -55,7 +55,8 @@ static int led_ctrl(struct led_device_t* dev, int whichLed, int ledStatus)
 }
 
 static struct led_device_t led_dev = {
-	.common 	= {
+	.common = {
+		.tag	= HARDWARE_DEVICE_TAG,
 		.close	= led_close,
 	},
 
@@ -82,14 +83,13 @@ static struct hw_module_methods_t led_module_methods = {
 };
 
 struct hw_module_t HAL_MODULE_INFO_SYM = {
-    //.tag = HARDWARE_MODULE_TAG,
-    //.module_api_version = VIBRATOR_API_VERSION,
-    //.hal_api_version = HARDWARE_HAL_API_VERSION,
-    //.name = "Default vibrator HAL",
-    //.author = "The Android Open Source Project",
-
+    .tag = HARDWARE_MODULE_TAG,
     .id = "led",
     .methods = &led_module_methods,
+	//.module_api_version = VIBRATOR_API_VERSION,
+	//.hal_api_version = HARDWARE_HAL_API_VERSION,
+	//.name = "Default vibrator HAL",
+	//.author = "The Android Open Source Project",
 };
 
 
