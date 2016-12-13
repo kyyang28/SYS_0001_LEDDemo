@@ -16,39 +16,51 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 
+#include <hardware/led_hal.h>
+
 //#include <android/log.h>	/* liblog */
 
 namespace android
 {
 
-static jint fd;
+static led_device_t* led_device;
 
 jint c_ledOpen(JNIEnv *env, jobject cls)
 {
-	fd = open("/dev/leds", O_RDWR);
-	//fd = open("/dev/young_leds", O_RDWR);	// error: there is no privilege for /dev/young_leds
-	ALOGI("LEDDemo", "native c_ledOpen : %d", fd);
+	jint err;
+    hw_module_t* module;
+	hw_device_t* device;
 
-	if (fd < 0)
-		return -1;
+	ALOGI("native c_ledOpen ...");
 
-	return 0;
+	/* 1. hw_get_module */
+    err = hw_get_module("led", (hw_module_t const**)&module);
+	
+    if (err == 0) {
+		/* 2. get_device() ==> module->methods->open(module, name, &device) */
+		err = module->methods->open(module, NULL, &device);
+		if (err == 0) {			
+			/* 3. call led_open() function */
+			led_device = (led_device_t *)device;
+			return led_device->led_open(led_device);
+		} else {
+			return -1;
+		}
+    }	
+		
+	return -1;
 }
 
 void c_ledClose(JNIEnv *env, jobject cls)
 {
-	ALOGI("native c_ledClose ...\n");
-
-	close(fd);
+	//ALOGI("native c_ledClose ...");
+	//close(fd);
 }
 
 jint c_ledCtrl(JNIEnv *env, jobject cls, jint whichLed, jint ledStatus)
 {
-	int ret = ioctl(fd, ledStatus, whichLed);
-	
-	ALOGI("native c_ledCtrl : %d, %d, %d", whichLed, ledStatus, ret);
-	
-	return ret;
+	ALOGI("native c_ledCtrl %d, %d", whichLed, ledStatus);
+	return led_device->led_ctrl(led_device, whichLed, ledStatus);
 }
 
 static const JNINativeMethod method_table[] = {
